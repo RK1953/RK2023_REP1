@@ -1,15 +1,24 @@
-Public Function AddComment(NumRow, NumCol, Comment, WComment, HCommment)
-    If (Comment <> "") Then
-        If (HCommment = 0) Then
-            EndLine = Chr$(13) + Chr$(10)
-            CommentAr = Split(Comment, EndLine)
-            HCommment = UBound(CommentAr) * 12
-        End If
-        With Cells(NumRow, NumCol)
-            .ClearComments
-            .AddComment Comment
-            .Comment.Shape.Width = WComment
-            .Comment.Shape.Height = HCommment
-        End With
-    End If
+Public Function AddComment(WBook, WPage, NumRow, NumCol, Comment, WComment, HCommment)
+  If (Comment <> "") Then
+  If (HCommment = 0) Then
+      EndLine = Chr$(13) + Chr$(10)
+      CommentAr = Split(Comment, EndLine)
+      HCommment = UBound(CommentAr) * 12
+  End If
+  With Workbooks(WBook).Worksheets(WPage).Cells(NumRow, NumCol)
+    .ClearComments
+    .AddComment Comment
+    .Comment.Shape.Width = WComment
+    .Comment.Shape.Height = HCommment
+  End With
+  End If
+End Function
+
+Public Function GetComment(WBook, WPage, NumRow, NumCol)
+  Set xComm = Workbooks(WBook).Worksheets(WPage).Cells(NumRow, NumCol).Comment
+  If Not xComm Is Nothing Then
+    GetComment = Workbooks(WBook).Worksheets(WPage).Cells(NumRow, NumCol).Comment.Text
+  Else
+    GetComment = ""
+  End If
 End Function
